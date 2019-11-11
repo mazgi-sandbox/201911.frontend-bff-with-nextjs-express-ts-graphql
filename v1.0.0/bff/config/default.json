@@ -1,0 +1,43 @@
+{
+  "version": "2019.11.0-default",
+  "baseVersion": "2019.11.0-default",
+  "db": {
+    "type": "mysql",
+    "charset": "utf8mb4",
+    "debug": false,
+    "trace": false,
+    "host": "mysql",
+    "port": 3306,
+    "username": "root",
+    "password": null,
+    "database": "bff",
+    "synchronize": false,
+    "entities": ["entities/**/*.ts"],
+    "migrations": ["db/migrations/**/*.ts"],
+    "subscribers": ["db/subscribers/**/*.ts"],
+    "cli": {
+      "entitiesDir": "entities",
+      "migrationsDir": "db/migrations",
+      "subscribersDir": "db/subscribers"
+    },
+    "logging": true
+  },
+  "email": {
+    "type": "gmail",
+    "address": "system@example.com",
+    "password": null
+  },
+  "server": {
+    "port": 4000,
+    "origins": ["*"]
+  },
+  "seeds": {
+    "users": [
+      {
+        "name": "admin",
+        "email": "admin@example.com",
+        "password": null
+      }
+    ]
+  }
+}

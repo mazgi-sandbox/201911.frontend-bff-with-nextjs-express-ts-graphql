@@ -1,0 +1,12 @@
+version: "3.7"
+services:
+  vscode: # for prettier
+    image: node:10
+    working_dir: /workspace
+    volumes:
+      - .:/workspace
+    user: "${UID:-0}:${GID:-0}"
+    command:
+      - bash
+      - -c
+      - npm install

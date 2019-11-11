@@ -1,0 +1,1 @@
+export { setupGraphQLMiddleware } from './setupGraphQLMiddleware'

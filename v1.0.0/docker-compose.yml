@@ -1,0 +1,59 @@
+version: "3.7"
+services:
+  mysql:
+    image: mysql:5.7
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "true"
+      MYSQL_DATABASE: "bff"
+    ports:
+      - "${BIND_IP_ADDR:-127.0.0.1}:3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+  bff:
+    build:
+      context: Dockerfile.d/bff
+      target: development
+    depends_on:
+      - mysql
+    working_dir: /workspace
+    volumes:
+      - ./bff:/workspace
+      - ./${DEV_CONFIG_DIR}/config.json:/tmp/config.json:ro
+    ports:
+      - "${BIND_IP_ADDR:-127.0.0.1}:4000:4000"
+    user: "${UID:-0}:${GID:-0}"
+    environment:
+      - SSH_AUTH_SOCK
+      - BFF_PRIVATE_KEY_PEM_STRING
+      - BFF_PUBLIC_KEY_PEM_STRING
+    command:
+      - bash
+      - -c
+      - |
+        npm install
+        npm run dev
+  frontend:
+    build:
+      context: Dockerfile.d/frontend
+      target: development
+    working_dir: /workspace
+    volumes:
+      - ./frontend:/workspace
+    ports:
+      - "${BIND_IP_ADDR:-127.0.0.1}:3000:3000"
+    user: "${UID:-0}:${GID:-0}"
+    environment:
+      - SSH_AUTH_SOCK
+      - FRONTEND_ENDPOINT_URL_BFF_GRAPHQL=http://${BIND_IP_ADDR:-127.0.0.1}:4000/graphql
+    command:
+      - bash
+      - -c
+      - |
+        npm install
+        npm run dev
+volumes:
+  mysql-data:
+    driver: local
