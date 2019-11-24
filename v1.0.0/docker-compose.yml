@@ -16,6 +16,9 @@ services:
     build:
       context: Dockerfile.d/bff
       target: development
+      args:
+        UID: ${UID:-0}
+        GID: ${GID:-0}
     depends_on:
       - mysql
     working_dir: /workspace
@@ -39,6 +42,9 @@ services:
     build:
       context: Dockerfile.d/frontend
       target: development
+      args:
+        UID: ${UID:-0}
+        GID: ${GID:-0}
     working_dir: /workspace
     volumes:
       - ./frontend:/workspace
@@ -47,7 +53,7 @@ services:
     user: "${UID:-0}:${GID:-0}"
     environment:
       - SSH_AUTH_SOCK
-      - FRONTEND_ENDPOINT_URL_BFF_GRAPHQL=http://${BIND_IP_ADDR:-127.0.0.1}:4000/graphql
+      - FRONTEND_ENDPOINT_URL_BFF_GRAPHQL
     command:
       - bash
       - -c

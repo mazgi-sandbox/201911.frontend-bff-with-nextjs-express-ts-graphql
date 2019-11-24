@@ -18,8 +18,17 @@ ENV DEBIAN_FRONTEND=
 # Begin development stage
 FROM base as development
 ENV DEBIAN_FRONTEND=noninteractive
-RUN apt-get update \
-  && apt-get install --assume-yes --no-install-recommends git tmux zsh jq
+
+ARG GID=0
+ARG UID=0
+ENV GID=${GID:-0}
+ENV UID=${UID:-0}
+
+RUN apt-get update\
+  && apt-get install --assume-yes --no-install-recommends git tmux zsh jq\
+  && addgroup --gid ${GID} developer || true\
+  && adduser --disabled-password --uid ${UID} --gecos '' --gid ${GID} developer || true
+
 ENV DEBIAN_FRONTEND=
 # End development stage
 # ================================
