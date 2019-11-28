@@ -39,6 +39,14 @@ const Component: React.FC = () => {
           <ListItemText primary="users" />
         </ListItem>
       </Link>
+      <Link href="/images">
+        <ListItem button>
+          <ListItemIcon>
+            <icons.Build />
+          </ListItemIcon>
+          <ListItemText primary="images" />
+        </ListItem>
+      </Link>
     </Fragment>
   )
 }

@@ -1,6 +1,7 @@
 import 'reflect-metadata'
 import { BaseEntity, createConnection } from 'typeorm'
 import Config from 'config'
+import bodyParser from 'body-parser'
 import cookieParser from 'cookie-parser'
 import { cookieTokenParser } from 'lib/graphql/middleware/cookieTokenParser'
 import cors from 'cors'
@@ -16,6 +17,7 @@ async function start(): Promise<void> {
   const app = express()
   app.set('port', config.server.port)
   app.use(errorHandler())
+  app.use(bodyParser({ limit: '5mb' }))
   if (config.isDevelopment) {
     app.use(logger('dev'))
   }

@@ -35,6 +35,7 @@
     "users": [
       {
         "name": "admin",
+        "displayName": "Administrator",
         "email": "admin@example.com",
         "password": null
       }

@@ -1,5 +1,9 @@
+import {
+  ImageResolver,
+  SignInResolver,
+  UserResolver
+} from 'lib/graphql/resolver'
 import { Request, Response } from 'express'
-import { SignInResolver, UserResolver } from 'lib/graphql/resolver'
 import Config from 'config'
 import authChecker from 'lib/aaa/authChecker'
 import { buildSchema } from 'type-graphql'
@@ -8,7 +12,7 @@ import graphqlHTTP from 'express-graphql'
 export const setupGraphQLMiddleware = async (): Promise<graphqlHTTP.Middleware> => {
   const config = await Config.getConfig()
   const schema = await buildSchema({
-    resolvers: [SignInResolver, UserResolver],
+    resolvers: [ImageResolver, SignInResolver, UserResolver],
     authChecker
   })
 
